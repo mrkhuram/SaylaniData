@@ -1,0 +1,59 @@
+
+import { createStore, combineReducers} from 'redux';
+
+const menusReducer = ( state = ['biryani','salad'], action) =>{
+return state
+}
+const usersReducer = ( state = ['Jhon', 'Khuram'], action) =>{
+return state }
+
+const allReducer= combineReducers({menusReducer, usersReducer})
+
+let store = createStore( allReducer);
+
+export default store
+
+
+
+			in app.js
+
+import {Provider} from 'react-redux' // provider is necessary to connect the store in our app
+import store from './redux' 
+
+in return (
+	<Provider store={store}> //leftside store is keyword and right side store is name of the file that we imported.
+
+	</Provider>
+	
+)
+
+
+
+in content.js
+
+import {connect} from 'react-redux' //used to get data from store
+
+replace 
+export default Content 
+to
+export default connect()(Content)
+
+to get reducer in our file
+
+const mapStateToProps = (store) =>{ //mapStareToProps is a convection ...upto you specify the name
+return {
+	abcd: store.menusReducer	// abcd can be any name but store is used from redux.js and menusReducer is a name of reducer that we wrote in our redux file.
+	} abcd is name that we call it in our content file .
+}
+
+export default connect(mapStateToProps)(Content)
+
+			after Namaz
+
+to change the data in store
+
+handleSubmit = () => {
+let menu_item = this.refs.menu_item.value
+let action = {type: "ADD_ITEM", payload: menu_item}
+
+}

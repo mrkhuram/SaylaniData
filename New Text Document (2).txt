@@ -1,0 +1,5 @@
+heroku Fixes 
+-----------
+1) Add script -> npm start into your package.json
+2) Make Dyanamic port
+3) Use cloud MongoDB service(mlab)

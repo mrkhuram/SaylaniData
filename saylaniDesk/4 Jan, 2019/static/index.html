@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <label for="">Name</label>
+        <input type="text">
+        <label for="">Password</label>
+        <input type="password">
+        <br>
+        <button onclick="">Create A User</button>
+        <button>Get Users</button>
+        <hr>
+        <button onclick="createFile()">Create File</button>
+        <button onclick="readFile()">Read File</button>
+        <button onclick="deleteFile()">Delete File</button>
+        <hr>
+        Server Data:
+        <div id="demo"></div>
+        <hr>
+        <!-- for single file -->
+        <!-- <form action="/picture" enctype="multipart/form-data" method="POST">
+            <input type="file" name="pic" id="">
+            <button type="submit">Upload</button>
+
+        </form> -->
+        <!-- for multifiles -->
+        <hr>
+        <form action="/pictures" enctype="multipart/form-data" method="POST">
+            <input type="file" name="pic" multiple>
+            <button type="submit">Upload</button>
+
+        </form>
+        <form action="/login" method="POST">
+        Username: <input type="text" name="username" id=""><br>
+        Password: <input type="password" name="password"> <br>
+        <button type="submit">Login</button>
+        <a href="/auth/facebook">Login with Facebook</a>
+        </form>
+    </div>
+    <script>
+        function createFile() {
+            var options = {
+                method: "POST",
+                body: JSON.stringify({}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            fetch('http://localhost:8080/newFile', options)
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data)
+                    document.getElementById('demo').innerHTML = data;
+                })
+                .catch((error) => console.log(error))
+        }
+
+        function getUsers() {
+            fetch('http://localhost:8080/getAllUsers')
+                .then((res) => res.json())
+                .then((users) => {
+                    console.log(users)
+                    demo.innerHTML = ""
+                    for (var user of users) {
+                        demo.innerHTML += `<li>My name is ${user.username} and Password is ${user.password}.</li>`;
+                    }
+                })
+        }
+
+        function readFile() {
+
+
+            fetch('http://localhost:8080/getData')
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data)
+                    demo.innerHTML += `<li>${data}</li>`;
+                })
+                .catch((error) => console.log(error))
+        }
+
+        function deleteFile() {
+            var options = {
+                method: "DELETE",
+                body: JSON.stringify({}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            fetch('http://localhost:8080/deleteFile', options)
+                .then((res) => res.text())
+                .then((message) => console.log(message))
+                .catch((error) => console.log(error))
+        }
+    </script>
+
+</body>
+
+</html>
