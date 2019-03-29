@@ -6,6 +6,7 @@ import Form from './Components/form.js'
 import Home from './Components/Home.js'
 import AccountDetail from './Components/account.js'
 import './App.css';
+// import SendMoney from './Components/'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import store from './redux';

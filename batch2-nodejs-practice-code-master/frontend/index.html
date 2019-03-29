@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        Username: <input type="text" id="usernameField">
+        Password: <input type="password" id="passwordField">
+    </form>
+    <div>
+        <button onclick="addUser()">Create A User</button>
+        <button onclick="getUsers()">Get Users</button>
+        <hr>
+        <button onclick="createFile()">Create File</button>
+        <button onclick="getData()">Read File</button>
+        <button onclick="deleteFile()">Delete File</button>
+        <hr>
+        Data from server:
+        <div id="demo"></div>
+        <hr>
+        <form action="/profile" method="POST" enctype="multipart/form-data">
+            <input type="file" name="profilePicture" multiple />
+            <input type="submit" value="Upload Picture">
+        </form>
+
+        <hr>
+        <form action="/login" method="post">
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username"/>
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password"/>
+            </div>
+            <div>
+                <input type="submit" value="Log In"/>
+            </div>
+        </form>
+
+    </div>
+    <script>
+        function getUsers() {
+
+            fetch('http://localhost:8000/getAllUsers')
+                .then((res) => res.json())
+                .then((users) => {
+                    console.log(users)
+                    demo.innerHTML = ""
+                    for (var user of users) {
+                        demo.innerHTML += `<li>My name is ${user.username} and password is ${user.password}</li>`
+                    }
+                })
+                .catch((error) => console.log(error))
+
+        }
+        function getData() {
+
+            fetch('http://localhost:8000/getData')
+                .then((res) => res.text())
+                .then((data) => {
+                    console.log(data)
+                    document.getElementById("demo").innerText = data
+
+                })
+                .catch((error) => console.log(error))
+
+        }
+        function createFile() {
+
+            var options = {
+                method: 'POST',
+                body: JSON.stringify({}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            fetch('http://localhost:8000/createFile', options)
+                .then((res) => res.text())
+                .then((message) => console.log(message))
+                .catch((error) => console.log(error))
+
+        }
+        function deleteFile() {
+
+            var options = {
+                method: 'DELETE',
+                body: JSON.stringify({}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            fetch('http://localhost:8000/deleteFile', options)
+                .then((res) => res.text())
+                .then((message) => console.log(message))
+                .catch((error) => console.log(error))
+
+        }
+
+
+        function addUser() {
+
+            var options = {
+                method: 'POST',
+                body: JSON.stringify({ username: usernameField.value, password: passwordField.value }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+
+            }
+            fetch('http://localhost:8000/addUser', options)
+                .then((res) => res.text())
+                .then((message) => console.log(message))
+                .catch((error) => console.log(error))
+
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>
